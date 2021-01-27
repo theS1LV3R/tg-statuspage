@@ -1,0 +1,16 @@
+[build]
+  publish = "dist/"
+  command = "yarn run build"
+
+[build.processing.css]
+  bundle = false
+  minify = true
+
+[bundle.processing.js]
+  bundle = false
+  minify = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
