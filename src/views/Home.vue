@@ -56,8 +56,9 @@ export default Vue.extend({
   beforeDestroy() {
     this.stopPolling();
   },
-  async created() {
-    await this.updateStatus();
+  created() {
+    this.updateStatus();
+    this.startPolling();
   },
 
   components: {
@@ -69,7 +70,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 #server-list {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-evenly;
 }
 </style>

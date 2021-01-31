@@ -6,8 +6,10 @@
       fail: status === 'fail',
       skipped: status === 'skipped',
     }"
+    @click.prevent="extended = !extended"
   >
     <h4 class="testCaseTitle">{{ name }}</h4>
+    <p v-if="extended" class="test-description">{{ description }}</p>
   </div>
 </template>
 
@@ -19,6 +21,12 @@ export default Vue.extend({
   props: {
     status: String,
     name: String,
+    description: String,
+  },
+  data() {
+    return {
+      extended: false,
+    };
   },
 });
 </script>

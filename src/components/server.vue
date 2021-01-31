@@ -15,6 +15,7 @@
         :key="index"
         :name="test.Title"
         :status="test.Status"
+        :description="getDesc(test)"
       />
     </div>
   </div>
@@ -24,6 +25,7 @@
 import Vue from "vue";
 
 import Test from "@/components/test.vue";
+import { TestCase } from "@/types";
 
 export default Vue.extend({
   name: "Server",
@@ -32,6 +34,16 @@ export default Vue.extend({
     tests: Array,
     success: Boolean,
     lastUpdated: Date,
+  },
+
+  methods: {
+    getDesc(test: TestCase) {
+      if (test.Description !== "") {
+        return test.Description;
+      } else {
+        return "No description defined";
+      }
+    },
   },
   components: {
     Test,
