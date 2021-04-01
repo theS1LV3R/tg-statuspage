@@ -4,6 +4,7 @@
     v-bind:class="{
       ok: status === true,
       fail: status === false,
+      skipped: description === 'Skipped.',
     }"
     @click.prevent="extended = !extended"
   >
