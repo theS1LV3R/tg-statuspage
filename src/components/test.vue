@@ -33,14 +33,17 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .ok {
   background-color: lightgreen;
+  color: #2c3e50;
 }
 
 .fail {
   background-color: #ed2939;
+  color: #2c3e50;
 }
 
 .skipped {
   background-color: orange;
+  color: #2c3e50;
 }
 
 .testCase {
