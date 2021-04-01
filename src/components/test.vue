@@ -2,9 +2,8 @@
   <div
     class="testCase"
     v-bind:class="{
-      ok: status === 'ok',
-      fail: status === 'fail',
-      skipped: status === 'skipped',
+      ok: status === true,
+      fail: status === false,
     }"
     @click.prevent="extended = !extended"
   >
@@ -19,7 +18,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "Test",
   props: {
-    status: String,
+    status: Boolean,
     name: String,
     description: String,
   },

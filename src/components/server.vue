@@ -13,8 +13,8 @@
       <Test
         v-for="(test, index) in tests"
         :key="index"
-        :name="test.Title"
-        :status="test.Status"
+        :name="test.name"
+        :status="test.status_success"
         :description="getDesc(test)"
       />
     </div>
@@ -38,8 +38,8 @@ export default Vue.extend({
 
   methods: {
     getDesc(test: TestCase) {
-      if (test.Description !== "") {
-        return test.Description;
+      if (test.status_description !== "") {
+        return test.status_description;
       } else {
         return "No description defined";
       }

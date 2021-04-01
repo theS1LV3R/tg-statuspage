@@ -1,8 +1,8 @@
 export interface TestCase {
-  Title: string;
-  Description: string;
-  Status: testStatus;
+  name: string;
+  status_description: string;
+  status_success: testStatus;
   Task: string;
 }
 
-export type testStatus = "ok" | "fail" | "skipped";
+export type testStatus = boolean;

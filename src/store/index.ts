@@ -6,12 +6,22 @@ import { TestCase } from "@/types";
 Vue.use(Vuex);
 
 const api = axios.create({
-  baseURL: "https://techo.gathering.org/api/status",
+  baseURL: "https://techo.gathering.org/api/custom/station-tasks-tests/net/",
 });
 
 export default new Vuex.Store({
   state: {
     servers: [
+      {
+        success: true,
+        testCases: [] as Array<TestCase>,
+        lastUpdated: new Date(),
+      },
+      {
+        success: true,
+        testCases: [] as Array<TestCase>,
+        lastUpdated: new Date(),
+      },
       {
         success: true,
         testCases: [] as Array<TestCase>,
@@ -49,19 +59,26 @@ export default new Vuex.Store({
   },
   actions: {
     async updateStatus(state) {
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < 6; i++) {
         await api
-          .get(`/station/${i + 1}`)
+          .get(`${i + 1}`)
           .then((res) => {
+            const tests: any[] = [];
+            res.data.tasks.forEach((task: any) =>
+              task.tests.forEach((test: any) => {
+                tests.push(test);
+              })
+            );
             state.commit("updateStatus", {
               index: i,
-              testCases: res.data.Tests,
+              testCases: tests,
             });
             state.commit("updateServerStatus", { index: i, success: true });
             state.commit("updateLastUpdated", { index: i });
           })
-          .catch((_) => {
+          .catch((err) => {
             console.error("Failed to fetch info stuffs");
+            console.warn(err);
             state.commit("updateServerStatus", { index: i, success: false });
           });
       }
