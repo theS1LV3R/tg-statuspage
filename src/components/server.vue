@@ -7,11 +7,32 @@
         may not be accurate.
       </p>
     </div>
-    <h2>Stack {{ id + 1 }}</h2>
-    <p>Last updated: {{ lastUpdated }}</p>
+    <h2
+      class="status"
+      :class="{
+        booked: station.timeslot,
+        active: station.status === 'active',
+        maintenance: station.status === 'maintenance',
+        dirty: station.status === 'dirty',
+      }"
+    >
+      {{ station.name }}
+    </h2>
+    <h3
+      class="status"
+      :class="{
+        booked: station.timeslot,
+        active: station.status === 'active',
+        maintenance: station.status === 'maintenance',
+        dirty: station.status === 'dirty',
+      }"
+    >
+      {{ capitalize(station.status) }}
+    </h3>
+    <p>Last updated: {{ lastUpdated.toLocaleString("nb-NO") }}</p>
     <div class="server-list">
       <Test
-        v-for="(test, index) in tests"
+        v-for="(test, index) in testCases"
         :key="index"
         :name="test.name"
         :status="test.status_success"
@@ -25,15 +46,15 @@
 import Vue from "vue";
 
 import Test from "@/components/test.vue";
-import { TestCase } from "@/types";
+import { TestCase, Station, LocalStation } from "@/types";
 
 export default Vue.extend({
   name: "Server",
   props: {
-    id: Number,
-    tests: Array,
-    success: Boolean,
+    testCases: Array as () => Array<TestCase>,
     lastUpdated: Date,
+    success: Boolean,
+    station: Object as () => Station,
   },
 
   methods: {
@@ -43,6 +64,10 @@ export default Vue.extend({
       } else {
         return "No description defined";
       }
+    },
+
+    capitalize(string: string) {
+      return string.trim().replace(/^\w/, (c) => c.toUpperCase());
     },
   },
   components: {
@@ -55,6 +80,24 @@ export default Vue.extend({
 .server-list {
   margin-left: auto;
   margin-right: auto;
+}
+
+.status {
+  &.active {
+    color: #39dd6d;
+  }
+
+  &.booked {
+    color: #ed2939;
+  }
+
+  &.maintenance {
+    color: gray;
+  }
+
+  &.dirty {
+    color: orange;
+  }
 }
 </style>
 
