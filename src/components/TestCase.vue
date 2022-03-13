@@ -14,10 +14,9 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 
-export default Vue.extend({
-  name: "Test",
+export default defineComponent({
   props: {
     status: Boolean,
     name: String,

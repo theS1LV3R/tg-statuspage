@@ -8,10 +8,10 @@
       </p>
     </div>
     <h2>Stack {{ id + 1 }}</h2>
-    <p>Last updated: {{ lastUpdated }}</p>
+    <p>Last updated: {{ lastUpdated ?? "Never." }}</p>
     <div class="server-list">
       <Test
-        v-for="(test, index) in tests"
+        v-for="(test, index) in (tests as TestCase[])"
         :key="index"
         :name="test.name"
         :status="test.status_success"
@@ -22,18 +22,30 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 
-import Test from "@/components/test.vue";
-import { TestCase } from "@/types";
+import Test from "@/components/TestCase.vue";
+import type { TestCase } from "@/types";
 
-export default Vue.extend({
-  name: "Server",
+export default defineComponent({
   props: {
-    id: Number,
-    tests: Array,
-    success: Boolean,
-    lastUpdated: Date,
+    id: {
+      type: Number,
+      required: true,
+    },
+    tests: {
+      type: Array,
+      required: true,
+    },
+    success: {
+      type: Boolean,
+      required: true,
+    },
+    lastUpdated: {
+      type: Date,
+      required: false,
+      default: undefined,
+    },
   },
 
   methods: {

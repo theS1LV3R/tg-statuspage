@@ -1,11 +1,9 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <nav>
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
+  </nav>
+  <router-view />
 </template>
 
 <style lang="scss">
@@ -21,7 +19,7 @@ html {
   color: hsla(0, 0%, 100%, 0.8);
 }
 
-#nav {
+nav {
   padding: 10px;
 
   a {

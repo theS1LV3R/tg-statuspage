@@ -1,4 +1,4 @@
-# tg-statuspage-v2
+# tg-statuspage-v3
 
 ## Project setup
 ```

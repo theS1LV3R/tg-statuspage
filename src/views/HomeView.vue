@@ -19,50 +19,65 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import { defineComponent } from "vue";
 
 import state from "@/store";
-import Server from "@/components/server.vue";
+import Server from "@/components/ServerComponent.vue";
 
-export default Vue.extend({
-  name: "Home",
+export default defineComponent({
+  name: "HomeView",
+  components: {
+    Server,
+  },
+
   data() {
     return {
       servers: state.state.servers,
-      pollingRate: 2500,
-      pollingID: 0,
-      polling: true,
+      pollingRate: state.state.polling.interval,
+      pollingID: state.state.polling.id,
+      polling: state.state.polling.active,
     };
+  },
+
+  watch: {
+    pollingRate(newVal) {
+      state.state.polling.interval = newVal;
+    },
+    polling(newVal) {
+      state.state.polling.active = newVal;
+      if (newVal) {
+        this.pollingID = setInterval(() => {
+          this.updateStatus();
+        }, state.state.polling.interval);
+      } else {
+        clearInterval(this.pollingID);
+        this.pollingID = undefined;
+      }
+    },
+    pollingID(newVal) {
+      state.state.polling.id = newVal;
+    },
   },
 
   methods: {
     async updateStatus() {
-      await this.$store.dispatch("updateStatus");
+      await state.dispatch("updateStatus");
     },
 
     async startPolling() {
-      this.pollingID = setInterval(
-        async () => await this.updateStatus(),
-        this.pollingRate
-      );
       this.polling = true;
+
+      this.pollingID = setInterval(() => {
+        this.updateStatus();
+      }, state.state.polling.interval);
     },
     async stopPolling() {
-      clearInterval(this.pollingID);
       this.polling = false;
     },
   },
 
-  beforeDestroy() {
-    this.stopPolling();
-  },
   created() {
-    this.updateStatus();
-    this.startPolling();
-  },
-
-  components: {
-    Server,
+    if (this.polling) this.startPolling();
   },
 });
 </script>
@@ -70,6 +85,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 #server-list {
   display: flex;
+  flex: 1 1 0;
   align-items: flex-start;
   justify-content: space-evenly;
 }
